@@ -1,42 +1,35 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using IPA;
-using UnityEngine.SceneManagement;
-using IPALogger = IPA.Logging.Logger;
+using Logger = IPA.Logging.Logger;
 
 namespace FireworksDisabler
 {
-    public class Plugin : IBeatSaberPlugin
+    [Plugin(RuntimeOptions.SingleStartInit)]
+    public class Plugin
     {
-        public static SemVer.Version Version => IPA.Loader.PluginManager.GetPlugin("FireworksDisabler").Metadata.Version;
+        public static SemVer.Version Version => IPA.Loader.PluginManager.GetPlugin("FireworksDisabler").Version;
 
-        internal static HarmonyInstance harmony;
+        internal static Harmony harmony;
 
-        public static IPALogger Log { get; internal set; }
+        public static Logger Log { get; internal set; }
 
-        public void Init(object thisIsNull, IPALogger log)
+        [Init]
+        public void Init(Logger log)
         {
             Log = log;
         }
 
-        public void OnApplicationStart()
+        [OnStart]
+        public void OnStart()
         {
-            harmony = HarmonyInstance.Create("com.nate1280.BeatSaber.FireworksDisabler");
+            harmony = new Harmony("com.nate1280.BeatSaber.FireworksDisabler");
             harmony.PatchAll(System.Reflection.Assembly.GetExecutingAssembly());
         }
 
-        public void OnApplicationQuit()
+        [OnExit]
+        public void OnExit()
         {
             harmony.UnpatchAll("com.nate1280.BeatSaber.FireworksDisabler");
         }
-
-        public void OnUpdate() { }
-
-        public void OnFixedUpdate() { }
-
-        public void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode) { }
-
-        public void OnSceneUnloaded(Scene scene) { }
-
-        public void OnActiveSceneChanged(Scene prevScene, Scene nextScene) { }
     }
 }

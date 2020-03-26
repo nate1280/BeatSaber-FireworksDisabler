@@ -2,9 +2,9 @@
   "$schema": "https://raw.githubusercontent.com/nike4613/ModSaber-MetadataFileSchema/master/Schema.json",
   "author": "nate1280",
   "description": "A plugin to disable end of level fireworks.",
-  "gameVersion": "1.6.1",
+  "gameVersion": "1.8.0",
   "id": "FireworksDisabler",
   "name": "FireworksDisabler",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "features": []
 } 
