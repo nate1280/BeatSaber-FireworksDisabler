@@ -4,7 +4,7 @@ using Logger = IPA.Logging.Logger;
 
 namespace FireworksDisabler
 {
-    [Plugin(RuntimeOptions.SingleStartInit)]
+    [Plugin(RuntimeOptions.DynamicInit)]
     public class Plugin
     {
         public static SemVer.Version Version => IPA.Loader.PluginManager.GetPlugin("FireworksDisabler").Version;
@@ -23,11 +23,16 @@ namespace FireworksDisabler
         public void OnStart()
         {
             harmony = new Harmony("com.nate1280.BeatSaber.FireworksDisabler");
+        }
+
+        [OnEnable]
+        public void OnEnable()
+        {
             harmony.PatchAll(System.Reflection.Assembly.GetExecutingAssembly());
         }
 
-        [OnExit]
-        public void OnExit()
+        [OnDisable]
+        public void OnDisable()
         {
             harmony.UnpatchAll("com.nate1280.BeatSaber.FireworksDisabler");
         }
